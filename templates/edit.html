@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Energy - Modification{% endblock %}
+
+{% block content %}
+
+<div class="espace" style="background-color:#2d96fa;">
+<h1>Rechercher un item</h1>
+</div>
+<form method="post">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Commune">Commune</label>
+            <input id="Commune" type="text" name="commune"
+                    placeholder="Commune" class="form-control"
+                    value="{{ request.form['commune'] }}" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Operateur">Operateur</label>
+            <input type="text" name="operateur"
+               placeholder="Operateur" class="form-control"
+               value="{{ request.form['operateur'] }}" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Filière">Filière</label>
+            <input type="text" name="filiere"
+                    placeholder="Filière" class="form-control"
+                    value="{{ request.form['filiere'] }}" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Iris">Iris</label>
+            <input type="text" name="iris"
+               placeholder="Iris" class="form-control"
+               value="{{ request.form['iris'] }}" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Secteur">Secteur</label>
+            <input type="text" name="secteur"
+                   placeholder="Secteur" class="form-control"
+                   value="{{ request.form['secteurS'] }}" required>
+            </div>
+    </div>
+      <button type="submit" class="btn btn-dark">Valider</button>
+</form>
+{% endblock %}

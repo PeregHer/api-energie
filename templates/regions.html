@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid"style="padding:0px; background-color:#d3d3d38a;">
+    <div class="container" style="background-color:#2d96fa;">
+        <h1>Affichage des données de gaz & electricité par région et par secteur</h1>
+        <div class="espace"></div>
+        <form class="col g-3" method="POST">
+
+                <label class='white_text' for="region">Choisir une région :</label>
+                <select id="region" class="form-select" required name="region"value="{{ request.form['region'] }}"></input>
+                    {% for region in regions %}
+                    <option >{{region}}</option>
+                    {% endfor %}
+                </select>
+            
+                <label class='white_text' for="domaine">Choisir un domaine :</label>
+                <select id="domaine" class="form-select" required name="domaine"value="{{ request.form['domaine'] }}"></input>
+                    {% for domaine in domaines %}
+                    <option >{{domaine}}</option>
+                    {% endfor %}
+                  </select>
+          
+     
+                  <label class='white_text' for="region">Choisir une énergie :</label>
+                  <select id="energie" class="form-select" required name="energie"value="{{ request.form['energie'] }}"></input>
+
+                    <option>Electricité</option>
+                    <option>Gaz</option>
+                  </select>
+
+            
+            <div class="espace"></div>
+
+            <div class="row-auto">
+              <button type="submit" class="btn btn-primary mb-3">Rechercher</button>
+            </div>
+
+          </form>
+   
+          
+            
+    </div>
+    <div class="espace"></div>
+
+
+
+</div>
+
+{% if condition==True %}
+<div class="espace"></div>
+<div class="container-fluid"style="padding:0px; background-color:#d3d3d38a;">
+    <div class="container" style="background-color:#2d96fa;">
+        <div class="espace"></div>
+        <h2>Donnée pour la région {{info[0]}}</h2>
+        <h3>{{info[2]}}</h3>
+
+
+        <figure class="highcharts-figure">
+        <div id="container"></div>
+        </figure>
+        <div class="espace"></div>
+    </div>
+    <div class="espace"></div>
+</div>
+    <script>
+
+        var value = {{ data|safe }};
+        var infos = {{ info|safe }};
+    
+    </script>
+
+{%endif%}
+<div class="espace"></div>
+        
+
+    
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+    Highcharts.chart('container', {
+
+chart: {
+  type: 'column'
+},
+
+title: {
+  text: 'Consommation 2019 en MWh'
+},
+
+xAxis: {
+  categories: value[0]
+},
+
+yAxis: {
+  allowDecimals: false,
+  min: 0,
+  title: {
+    text: 'Total de MWh pour 2019'
+  }
+},
+
+tooltip: {
+  formatter: function () {
+    return '<b>' + this.x + '</b><br/>' +
+      this.series.name + ': ' + this.y + '<br/>' 
+  }
+},
+
+plotOptions: {
+  column: {
+    stacking: 'normal'
+  }
+},
+
+series: [{
+  name: infos[1],
+  data: value[1]
+}]
+});
+</script>
+
+{% endblock %}
+
+
+
+   
+   

@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   
+<script type = "text/javascript" src="../static/main.js"></script>
+
+
+<div class="container-fluid"style="padding:0px; background-color:#d3d3d38a;">
+    <div class="container-fluid" style="background-color:#2d96fa; padding:10px;  ">
+        <div>
+            <h1>Consommation de Gaz/Electricité pour une région choisie</h1>
+            <form method="POST">
+                <label class="white_text" for="region">Choisir une région</label>
+                <select id="region" class="form-select" name="region" required>
+                    {% for region in regions %}
+                    <option>{{region}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">Choix</button>                
+            </form>          
+        </div>
+        <div class="espace"></div>
+        <figure class="highcharts-figure">
+            <div id="container_chart"></div>
+            <p class="highcharts-description"></p>
+        </figure>
+        <div class="espace"></div>
+        <h1>Consommation de Gaz et Electricité en France</h1>
+        <div id="container_map1"></div>
+        <div class="espace"></div>
+        <div id="container_map2"></div>
+    </div>
+</div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/fr/fr-all.js"></script>
+
+<script>
+    var data = {{ data|safe }}
+    var data_name = '{{ select }}'
+</script>
+
+<script>
+Highcharts.chart('container_chart', {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: `Consommation de Gaz/Electricité pour la région ${data_name}`
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%'
+      }
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+    series: [{
+      name: 'Pourcentage',
+      colorByPoint: true,
+      data: data
+    }]
+  });
+</script>
+
+<script>
+var data_map1 = {{ data_map|safe }}
+// Create the chart
+Highcharts.mapChart('container_map1', {
+    chart: {
+        map: 'countries/fr/fr-all'
+    },
+
+    title: {
+        text: 'Consommation de Gaz en France'
+    },
+
+    subtitle: {
+        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
+    },
+
+    mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+            verticalAlign: 'bottom'
+        }
+    },
+
+    colorAxis: {
+        min: 0
+    },
+
+    series: [{
+        data: data_map1,
+        name: 'Random data',
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }, {
+        name: 'Separators',
+        type: 'mapline',
+        data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
+        color: 'silver',
+        nullColor: 'silver',
+        showInLegend: false,
+        enableMouseTracking: false
+    }]
+});
+</script>
+
+<script>
+    var data_map2 = {{ data_map2|safe }}
+// Create the chart
+Highcharts.mapChart('container_map2', {
+    chart: {
+        map: 'countries/fr/fr-all'
+    },
+
+    title: {
+        text: 'Consommation de Electricité en France'
+    },
+
+    subtitle: {
+        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
+    },
+
+    mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+            verticalAlign: 'bottom'
+        }
+    },
+
+    colorAxis: {
+        min: 0
+    },
+
+    series: [{
+        data: data_map2,
+        name: 'Random data',
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }, {
+        name: 'Separators',
+        type: 'mapline',
+        data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
+        color: 'silver',
+        nullColor: 'silver',
+        showInLegend: false,
+        enableMouseTracking: false
+    }]
+});
+</script>
+{% endblock %}
+
+
+
+   
+   

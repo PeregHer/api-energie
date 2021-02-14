@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Energy - Modification{% endblock %}
+
+{% block content %}
+
+<div class="espace" style="background-color:#2d96fa;">
+    <h1>Faire une modificaton de {{ id }}</h1>
+</div>
+
+<form action="{{url_for('update', _id=id)}}" method="POST">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="consoInput">Consommation</label>
+            <input id="consoInput" type="text" name="conso"
+                    placeholder="Consommation" class="form-control"
+                    value="{{ data['conso'] }}" required>
+        </div>
+        <div class="form-group col-md-6">
+        <label for="OpeInput">Operateur</label>
+        <input id="OpeInput" type="text" name="operateur"
+               placeholder="Operateur" class="form-control"
+               value="{{ data['operateur'] }}" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="FiliereInput">Filière</label>
+            <input id="FiliereInput" type="text" name="filiere"
+                    placeholder="Filière" class="form-control"
+                    value="{{ data['filiere'] }}" required>
+        </div>
+        <div class="form-group col-md-6">
+        <label for="SecteurInput">Secteur</label>
+        <input id="SecteurInput" type="text" name="secteur"
+               placeholder="Secteur" class="form-control"
+               value="{{ data['libelle_grand_secteur'] }}" required>
+        </div>
+    </div>
+        <input type="submit" class="btn btn-warning"value="Modifier"></button>
+</form>
+<form action="{{url_for('delete', _id=id)}}">
+    <input type="submit" class="btn btn-danger" value="Supprimer"></button>
+</form>
+
+{% endblock %}

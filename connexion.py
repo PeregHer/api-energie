@@ -4,8 +4,8 @@ class Connexion:
     @classmethod
     # Se connecter à Atlas
     def connect(cls):
-        cls.user = 'Stephane'
-        cls.password = 'isenbrest'
+        cls.user = ''
+        cls.password = ''
         return pymongo.MongoClient(f"mongodb+srv://{cls.user}:{cls.password}@bel-cluster.1cbyc.mongodb.net/?retryWrites=true&w=majority")
     
     @classmethod
